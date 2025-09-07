@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+  # Infrastructure services
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.0
     container_name: zookeeper
@@ -48,3 +49,78 @@ services:
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
     depends_on:
       - kafka
+
+  # Application microservices
+  api-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: stock-api
+    ports:
+      - "8080:8080"
+    environment:
+      - ALPHA_VANTAGE_API_KEY=${ALPHA_VANTAGE_API_KEY}
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=stock_alerts
+      - KAFKA_BROKER=kafka:9092
+    depends_on:
+      - postgres
+      - kafka
+    restart: unless-stopped
+
+  alert-consumer:
+    build:
+      context: .
+      dockerfile: Dockerfile.alert
+    container_name: stock-alert-consumer
+    environment:
+      - ALPHA_VANTAGE_API_KEY=${ALPHA_VANTAGE_API_KEY}
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=stock_alerts
+      - KAFKA_BROKER=kafka:9092
+    depends_on:
+      - postgres
+      - kafka
+    restart: unless-stopped
+
+  persistence-consumer:
+    build:
+      context: .
+      dockerfile: Dockerfile.persistence
+    container_name: stock-persistence-consumer
+    environment:
+      - ALPHA_VANTAGE_API_KEY=${ALPHA_VANTAGE_API_KEY}
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=stock_alerts
+      - KAFKA_BROKER=kafka:9092
+    depends_on:
+      - postgres
+      - kafka
+    restart: unless-stopped
+
+  analytics-consumer:
+    build:
+      context: .
+      dockerfile: Dockerfile.analytics
+    container_name: stock-analytics-consumer
+    environment:
+      - ALPHA_VANTAGE_API_KEY=${ALPHA_VANTAGE_API_KEY}
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=stock_alerts
+      - KAFKA_BROKER=kafka:9092
+    depends_on:
+      - postgres
+      - kafka
+    restart: unless-stopped

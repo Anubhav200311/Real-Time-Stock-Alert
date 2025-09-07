@@ -20,13 +20,9 @@ func main() {
 	// Connect DB
 	db.ConnectDatabase()
 
-	// Init Kafka
+	// Init Kafka Producer (for publishing stock data)
 	services.InitKafkaProducer()
 
-	// Start consumers
-	services.StartConsumer()            // Alert consumer
-	services.StartPersistenceConsumer() // Persistence consumer ✅
-	services.StartAnalyticsConsumer()
 	// Start background stock fetcher (produces to Kafka)
 	services.StartFetcher()
 
@@ -36,6 +32,7 @@ func main() {
 	// Register routes
 	routes.RegisterRoutes(r)
 
+	log.Println("🚀 API service starting on port 8080")
 	// Start server
 	r.Run(":8080")
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"log"
+	"os"
 	"time"
 
 	"github.com/segmentio/kafka-go"
@@ -13,8 +14,13 @@ var kafkaWriter *kafka.Writer
 
 // InitKafkaProducer sets up the Kafka writer
 func InitKafkaProducer() {
+	broker := os.Getenv("KAFKA_BROKER")
+	if broker == "" {
+		broker = "127.0.0.1:9093" // fallback for local development
+	}
+
 	kafkaWriter = &kafka.Writer{
-		Addr:     kafka.TCP("127.0.0.1:9093"), // use 9093 (PLAINTEXT_HOST)
+		Addr:     kafka.TCP(broker),
 		Topic:    "stock_prices",
 		Balancer: &kafka.LeastBytes{},
 	}
