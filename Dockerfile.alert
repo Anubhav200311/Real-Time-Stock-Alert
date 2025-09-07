@@ -20,6 +20,5 @@ WORKDIR /root/
 
 # Copy the binary
 COPY --from=builder /app/alert-consumer .
-COPY --from=builder /app/.env .
 
 CMD ["./alert-consumer"]

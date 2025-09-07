@@ -20,6 +20,5 @@ WORKDIR /root/
 
 # Copy the binary
 COPY --from=builder /app/analytics-consumer .
-COPY --from=builder /app/.env .
 
 CMD ["./analytics-consumer"]
