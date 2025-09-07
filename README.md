@@ -2,7 +2,7 @@
 
 A scalable microservices-based - Git** - Version control with proper gitignore configuration
 
-## Getting Startedck monitoring and alert system built with Go, Apache Kafka, and PostgreSQL. The system tracks stock prices, analyzes market data, and sends real-time alerts to users based on their portfolio preferences.
+## Getting Started monitoring and alert system built with Go, Apache Kafka, and PostgreSQL. The system tracks stock prices, analyzes market data, and sends real-time alerts to users based on their portfolio preferences.
 
 ## Project Overview
 
