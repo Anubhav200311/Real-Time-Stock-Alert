@@ -21,8 +21,14 @@ func ConnectDatabase() {
 		log.Fatal("Failed to connect to database:", err)
 	}
 
-	// Auto-migrate tables
-	database.AutoMigrate(&models.User{}, &models.Portfolio{}, &models.Stock{}, &models.Alert{})
+	// Auto-migrate tables (include StockPrice now)
+	database.AutoMigrate(
+		&models.User{},
+		&models.Portfolio{},
+		&models.Stock{},
+		&models.Alert{},
+		&models.StockPrice{}, // ✅ added
+	)
 
 	DB = database
 	fmt.Println("✅ Database connected & migrated")

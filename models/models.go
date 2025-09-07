@@ -29,3 +29,11 @@ type Alert struct {
 	Price       float64
 	Timestamp   time.Time
 }
+
+// ✅ New model for persistence consumer
+type StockPrice struct {
+	ID        uint   `gorm:"primaryKey"`
+	Symbol    string `gorm:"size:10;index"`
+	Price     float64
+	Timestamp time.Time
+}
