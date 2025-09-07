@@ -27,7 +27,8 @@ func ConnectDatabase() {
 		&models.Portfolio{},
 		&models.Stock{},
 		&models.Alert{},
-		&models.StockPrice{}, // ✅ added
+		&models.StockPrice{}, // ✅ added,
+		&models.StockAnalytics{},
 	)
 
 	DB = database

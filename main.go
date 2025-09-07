@@ -26,7 +26,7 @@ func main() {
 	// Start consumers
 	services.StartConsumer()            // Alert consumer
 	services.StartPersistenceConsumer() // Persistence consumer ✅
-
+	services.StartAnalyticsConsumer()
 	// Start background stock fetcher (produces to Kafka)
 	services.StartFetcher()
 

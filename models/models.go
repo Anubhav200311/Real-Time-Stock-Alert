@@ -37,3 +37,12 @@ type StockPrice struct {
 	Price     float64
 	Timestamp time.Time
 }
+
+type StockAnalytics struct {
+	ID          uint   `gorm:"primaryKey"`
+	Symbol      string `gorm:"size:10;index"`
+	Avg5        float64
+	Avg20       float64
+	Signal      string // "BULLISH", "BEARISH", "NEUTRAL"
+	GeneratedAt time.Time
+}
